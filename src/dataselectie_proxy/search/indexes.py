@@ -36,6 +36,6 @@ INDEX_MAPPING = {
             "wijkNaam",
             "buurtNaamTabel",
         },
-        needed_scopes={"brk"},
+        needed_scopes={"brk_rsn"},
     ),
 }
