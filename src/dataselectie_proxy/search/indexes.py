@@ -38,4 +38,19 @@ INDEX_MAPPING = {
         },
         needed_scopes={"brk_rsn"},
     ),
+    "hr": SearchIndex(
+        index_name="benkagg_handelsregisterkvk",
+        api_path="benkagg/handelsregisterkvk",
+        facets={
+            "activiteitenVes",
+            "bagOpenbareruimteNaam",
+            "bagPostcode",
+            "gebiedenBuurtNaam",
+            "gebiedenGgwgebiedNaam",
+            "gebiedenStadsdeelNaam",
+            "gebiedenWijkNaam",
+            "status",
+        },
+        needed_scopes={"fp_mdw"},
+    ),
 }
