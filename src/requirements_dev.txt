@@ -32,12 +32,12 @@ azure-identity==1.23.0 \
     --hash=sha256:d9cdcad39adb49d4bb2953a217f62aec1f65bbb3c63c9076da2be2a47e53dde4 \
     --hash=sha256:dbbeb64b8e5eaa81c44c565f264b519ff2de7ff0e02271c49f3cb492762a50b0
     # via
-    #   -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    #   -r ./requirements.in
     #   azure-monitor-opentelemetry-exporter
-azure-monitor-opentelemetry==1.6.9 \
-    --hash=sha256:2689cb019982d01688584de832e118316e974c3ba02d81f71d8e8e7ca5d1e799 \
-    --hash=sha256:3e3ae4b4f8f048df7b7056510f75dbcf41055cdd433cc9425a5b7f7d1a0163c3
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+azure-monitor-opentelemetry==1.6.10 \
+    --hash=sha256:1f8145f665abb1626ac1caf14f75fc9b4fc43b818694798f7a43ea369e265683 \
+    --hash=sha256:8b5953454f72da42f7959a8017e5f9712427b931d1d08be008d32722c4605a0d
+    # via -r ./requirements.in
 azure-monitor-opentelemetry-exporter==1.0.0b36 \
     --hash=sha256:82977b9576a694362ea9c6a9eec6add6e56314da759dbc543d02f50962d4b72d \
     --hash=sha256:8b669deae6a247246944495f519fd93dbdfa9c0150d1222cfc780de098338546
@@ -362,7 +362,7 @@ cryptography==45.0.2 \
 datapunt-authorization-django==1.6.1 \
     --hash=sha256:27565d59ed6ff3e3c83b6c04a09fcf76abff7a49b9b7ff5ad2319a9b580d4e7c \
     --hash=sha256:c2ba6de31da21dd4e07419659a61bbaaa16588f403065174a42db71700882601
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 deprecated==1.2.18 \
     --hash=sha256:422b6f6d859da6f2ef57857761bfb392480502a64c3028ca9bbe86085d72115d \
     --hash=sha256:bd5011788200372a32418f888e326a09ff80d0214bd961147cfed01b5c018eec
@@ -373,11 +373,11 @@ distlib==0.3.9 \
     --hash=sha256:47f8c22fd27c27e25a65601af709b38e4f0a45ea4fc2e710f65755fa8caaaf87 \
     --hash=sha256:a60f20dea646b8a33f3e7772f74dc0b2d0772d2837ee1342a00645c81edf9403
     # via virtualenv
-django==5.1.9 \
-    --hash=sha256:2fd1d4a0a66a5ba702699eb692e75b0d828b73cc2f4e1fc4b6a854a918967411 \
-    --hash=sha256:565881bdd0eb67da36442e9ac788bda90275386b549070d70aee86327781a4fc
+django==5.2.2 \
+    --hash=sha256:85852e517f84435e9b13421379cd6c43ef5b48a9c8b391d29a26f7900967e952 \
+    --hash=sha256:997ef2162d04ead6869551b22cde4e06da1f94cf595f4af3f3d3afeae1f3f6fe
     # via
-    #   -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    #   -r ./requirements.in
     #   datapunt-authorization-django
     #   django-cors-headers
     #   django-debug-toolbar
@@ -387,7 +387,7 @@ django==5.1.9 \
 django-cors-headers==4.7.0 \
     --hash=sha256:6fdf31bf9c6d6448ba09ef57157db2268d515d94fc5c89a0a1028e1fc03ee52b \
     --hash=sha256:f1c125dcd58479fe7a67fe2499c16ee38b81b397463cf025f0e2c42937421070
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 django-debug-toolbar==5.2.0 \
     --hash=sha256:15627f4c2836a9099d795e271e38e8cf5204ccd79d5dbcd748f8a6c284dcd195 \
     --hash=sha256:9e7f0145e1a1b7d78fcc3b53798686170a5b472d9cf085d88121ff823e900821
@@ -395,7 +395,7 @@ django-debug-toolbar==5.2.0 \
 django-environ==0.12.0 \
     --hash=sha256:227dc891453dd5bde769c3449cf4a74b6f2ee8f7ab2361c93a07068f4179041a \
     --hash=sha256:92fb346a158abda07ffe6eb23135ce92843af06ecf8753f43adf9d2366dcc0ca
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 django-extensions==4.1 \
     --hash=sha256:0699a7af28f2523bf8db309a80278519362cd4b6e1fd0a8cd4bf063e1e023336 \
     --hash=sha256:7b70a4d28e9b840f44694e3f7feb54f55d495f8b3fa6c5c0e5e12bcb2aa3cdeb
@@ -403,11 +403,11 @@ django-extensions==4.1 \
 django-healthchecks==1.5.0 \
     --hash=sha256:0f167deaa30bde59552796799abf2a97a118bc190e8601eef713379703cf9f64 \
     --hash=sha256:25eb021a4a94240b28d996e82775ad6c3b392a2b262360b965a24b88fcfad78d
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 djangorestframework==3.16.0 \
     --hash=sha256:bea7e9f6b96a8584c5224bfb2e4348dfb3f8b5e34edbecb98da258e892089361 \
     --hash=sha256:f022ff46613584de994c0c6a4aebbace5fd700555fbe9d33b865ebf173eba6c9
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 filelock==3.18.0 \
     --hash=sha256:adbc88eabb99d2fec8c9c1b229b171f18afa655400173ddc653d5d01501fb9f2 \
     --hash=sha256:c401f4f8377c4464e6db25fff06205fd89bdd83b65eb0488ed1b160f780e21de
@@ -444,7 +444,7 @@ jwcrypto==1.5.6 \
 more-ds==0.0.6 \
     --hash=sha256:777df5b01e3a492ccccd4058156e7d916013e02e85248a8b2c2ca1d1ab13789b \
     --hash=sha256:931d6913beebcf9c4e8155b6b58eef3fc94f000c5b6fb838261b2c0c8886b69c
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 msal==1.32.3 \
     --hash=sha256:5eea038689c78a5a70ca8ecbe1245458b55a857bd096efb6989c69ba15985d35 \
     --hash=sha256:b2798db57760b1961b142f027ffb7c8169536bf77316e99a0df5c4aaebb11569
@@ -657,7 +657,7 @@ orjson==3.10.18 \
     --hash=sha256:fdba703c722bd868c04702cac4cb8c6b8ff137af2623bc0ddb3b3e6a2c8996c1 \
     --hash=sha256:fdd9d68f83f0bc4406610b1ac68bdcded8c5ee58605cc69e643a06f4d075f429 \
     --hash=sha256:fe8936ee2679e38903df158037a2f1c108129dee218975122e37847fb1d4ac68
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 packaging==25.0 \
     --hash=sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484 \
     --hash=sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f
@@ -716,6 +716,10 @@ pycparser==2.22 \
     --hash=sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6 \
     --hash=sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc
     # via cffi
+pygments==2.19.1 \
+    --hash=sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f \
+    --hash=sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c
+    # via pytest
 pyjwt[crypto]==2.10.1 \
     --hash=sha256:3cc5772eb20009233caf06e9d8a0577824723b44e6648ee0a2aedb6cf9381953 \
     --hash=sha256:dcdd193e30abefd5debf142f9adfcdd2b58004e644f25406ffaebd50bd98dacb
@@ -728,22 +732,22 @@ pyproject-hooks==1.2.0 \
     # via
     #   build
     #   pip-tools
-pytest==8.3.5 \
-    --hash=sha256:c69214aa47deac29fad6c2a4f590b9c4a9fdb16a403176fe154b79c0b4d4d820 \
-    --hash=sha256:f4efe70cc14e511565ac476b57c279e12a855b11f48f212af1080ef2263d3845
+pytest==8.4.0 \
+    --hash=sha256:14d920b48472ea0dbf68e45b96cd1ffda4705f33307dcc86c676c1b5104838a6 \
+    --hash=sha256:f40f825768ad76c0977cbacdf1fd37c6f7a468e460ea6a0636078f8972d4517e
     # via
-    #   -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    #   -r ./requirements.in
     #   pytest-cov
     #   pytest-django
     #   pytest-sugar
 pytest-cov==6.1.1 \
     --hash=sha256:46935f7aaefba760e716c2ebfbe1c216240b9592966e7da99ea8292d4d3e2a0a \
     --hash=sha256:bddf29ed2d0ab6f4df17b4c55b0a657287db8684af9c42ea546b21b1041b3dde
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 pytest-django==4.11.1 \
     --hash=sha256:1b63773f648aa3d8541000c26929c1ea63934be1cfa674c76436966d73fe6a10 \
     --hash=sha256:a949141a1ee103cb0e7a20f1451d355f83f5e4a5d07bdd4dcfdd1fd0ff227991
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 pytest-sugar==1.0.0 \
     --hash=sha256:6422e83258f5b0c04ce7c632176c7732cab5fdb909cb39cca5c9139f81276c0a \
     --hash=sha256:70ebcd8fc5795dc457ff8b69d266a4e2e8a74ae0c3edc749381c64b5246c8dfd
@@ -751,11 +755,11 @@ pytest-sugar==1.0.0 \
 python-json-logger==3.3.0 \
     --hash=sha256:12b7e74b17775e7d565129296105bbe3910842d9d0eb083fc83a6a617aa8df84 \
     --hash=sha256:dd980fae8cffb24c13caf6e158d3d61c0d6d22342f932cb6e9deedab3d35eec7
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 python-owasp-zap-v2-4==0.1.0 \
     --hash=sha256:2af4252320b3b77a38712081422688e676e038306cf1f2792feed811235afa8b \
     --hash=sha256:d4dc00387b0089d81683be01b8272577ad39fb47674377f65c7da0fd30b8abe9
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 pyyaml==6.0.2 \
     --hash=sha256:01179a4a8559ab5de078078f37e5c1a30d76bb88519906844fd7bdea1b7729ff \
     --hash=sha256:0833f8694549e586547b576dcfaba4a6b55b9e96098b36cdc7ebefe667dfed48 \
@@ -815,7 +819,7 @@ requests==2.32.3 \
     --hash=sha256:55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760 \
     --hash=sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6
     # via
-    #   -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    #   -r ./requirements.in
     #   azure-core
     #   datapunt-authorization-django
     #   django-healthchecks
@@ -828,30 +832,30 @@ requests==2.32.3 \
 requests-mock==1.12.1 \
     --hash=sha256:b1e37054004cdd5e56c84454cc7df12b25f90f382159087f4b6915aaeef39563 \
     --hash=sha256:e9e12e333b525156e82a3c852f22016b9158220d2f47454de9cae8a77d371401
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 requests-oauthlib==2.0.0 \
     --hash=sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36 \
     --hash=sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9
     # via msrest
-ruff==0.11.10 \
-    --hash=sha256:1067245bad978e7aa7b22f67113ecc6eb241dca0d9b696144256c3a879663bca \
-    --hash=sha256:2f071b0deed7e9245d5820dac235cbdd4ef99d7b12ff04c330a241ad3534319f \
-    --hash=sha256:3afead355f1d16d95630df28d4ba17fb2cb9c8dfac8d21ced14984121f639bad \
-    --hash=sha256:4a60e3a0a617eafba1f2e4186d827759d65348fa53708ca547e384db28406a0b \
-    --hash=sha256:5a94acf798a82db188f6f36575d80609072b032105d114b0f98661e1679c9125 \
-    --hash=sha256:5b6a9cc5b62c03cc1fea0044ed8576379dbaf751d5503d718c973d5418483641 \
-    --hash=sha256:5cc725fbb4d25b0f185cb42df07ab6b76c4489b4bfb740a175f3a59c70e8a224 \
-    --hash=sha256:607ecbb6f03e44c9e0a93aedacb17b4eb4f3563d00e8b474298a201622677947 \
-    --hash=sha256:7b3a522fa389402cd2137df9ddefe848f727250535c70dafa840badffb56b7a4 \
-    --hash=sha256:859a7bfa7bc8888abbea31ef8a2b411714e6a80f0d173c2a82f9041ed6b50f58 \
-    --hash=sha256:8b4564e9f99168c0f9195a0fd5fa5928004b33b377137f978055e40008a082c5 \
-    --hash=sha256:968220a57e09ea5e4fd48ed1c646419961a0570727c7e069842edd018ee8afed \
-    --hash=sha256:d522fb204b4959909ecac47da02830daec102eeb100fb50ea9554818d47a5fa6 \
-    --hash=sha256:da8ec977eaa4b7bf75470fb575bea2cb41a0e07c7ea9d5a0a97d13dbca697bf2 \
-    --hash=sha256:dc061a98d32a97211af7e7f3fa1d4ca2fcf919fb96c28f39551f35fc55bdbc19 \
-    --hash=sha256:ddf8967e08227d1bd95cc0851ef80d2ad9c7c0c5aab1eba31db49cf0a7b99523 \
-    --hash=sha256:ef69637b35fb8b210743926778d0e45e1bffa850a7c61e428c6b971549b5f5d1 \
-    --hash=sha256:f4854fd09c7aed5b1590e996a81aeff0c9ff51378b084eb5a0b9cd9518e6cff2
+ruff==0.11.12 \
+    --hash=sha256:08033320e979df3b20dba567c62f69c45e01df708b0f9c83912d7abd3e0801cd \
+    --hash=sha256:2635c2a90ac1b8ca9e93b70af59dfd1dd2026a40e2d6eebaa3efb0465dd9cf02 \
+    --hash=sha256:2cad64843da9f134565c20bcc430642de897b8ea02e2e79e6e02a76b8dcad7c3 \
+    --hash=sha256:3cc3a3690aad6e86c1958d3ec3c38c4594b6ecec75c1f531e84160bd827b2012 \
+    --hash=sha256:43cf7f69c7d7c7d7513b9d59c5d8cafd704e05944f978614aa9faff6ac202603 \
+    --hash=sha256:4d47afa45e7b0eaf5e5969c6b39cbd108be83910b5c74626247e366fd7a36a13 \
+    --hash=sha256:5a4d9f8030d8c3a45df201d7fb3ed38d0219bccd7955268e863ee4a115fa0832 \
+    --hash=sha256:65194e37853158d368e333ba282217941029a28ea90913c67e558c611d04daa5 \
+    --hash=sha256:692bf9603fe1bf949de8b09a2da896f05c01ed7a187f4a386cdba6760e7f61be \
+    --hash=sha256:74adf84960236961090e2d1348c1a67d940fd12e811a33fb3d107df61eef8fc7 \
+    --hash=sha256:7de4a73205dc5756b8e09ee3ed67c38312dce1aa28972b93150f5751199981b5 \
+    --hash=sha256:929b7706584f5bfd61d67d5070f399057d07c70585fa8c4491d78ada452d3bef \
+    --hash=sha256:9b6886b524a1c659cee1758140138455d3c029783d1b9e643f3624a5ee0cb0aa \
+    --hash=sha256:b56697e5b8bcf1d61293ccfe63873aba08fdbcbbba839fc046ec5926bdb25a3a \
+    --hash=sha256:c7680aa2f0d4c4f43353d1e72123955c7a2159b8646cd43402de6d4a3a25d7cc \
+    --hash=sha256:d05d6a78a89166f03f03a198ecc9d18779076ad0eec476819467acb401028c0c \
+    --hash=sha256:f5a07f49767c4be4772d161bfc049c1f242db0cfe1bd976e0f0886732a4765d6 \
+    --hash=sha256:f97fdbc2549f456c65b3b0048560d44ddd540db1f27c778a938371424b49fe4a
     # via -r requirements_dev.in
 six==1.17.0 \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
@@ -886,10 +890,10 @@ urllib3==2.4.0 \
 uwsgi-readiness-check==0.2.0 \
     --hash=sha256:b8c4bfba260ec6f1937ca8d8968f2415aba82428637da17653fc04a3378d752e \
     --hash=sha256:e7a2b5a94407193bc876efd28157a45833cb69c372f7684004fa729eca2f1ab0
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 uwsgitop==0.12 \
     --hash=sha256:4f9330951f0fb9633226de36cf0c28c04dcf323efab608834aa81f638b6019b2
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 virtualenv==20.31.2 \
     --hash=sha256:36efd0d9650ee985f0cad72065001e66d49a6f24eb44d98980f630686243cf11 \
     --hash=sha256:e10c0a9d02835e592521be48b332b6caee6887f332c111aa79a09b9e79efc2af
@@ -901,7 +905,7 @@ wheel==0.45.1 \
 whitenoise==6.9.0 \
     --hash=sha256:8c4a7c9d384694990c26f3047e118c691557481d624f069b7f7752a2f735d609 \
     --hash=sha256:c8a489049b7ee9889617bb4c274a153f3d979e8f51d2efd0f5b403caf41c57df
-    # via -r /home/jasper/code/dataselectie-proxy/src/requirements.in
+    # via -r ./requirements.in
 wrapt==1.17.2 \
     --hash=sha256:08e7ce672e35efa54c5024936e559469436f8b8096253404faeb54d2a878416f \
     --hash=sha256:0a6e821770cf99cc586d33833b2ff32faebdbe886bd6322395606cf55153246c \
