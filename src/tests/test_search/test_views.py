@@ -87,7 +87,7 @@ class TestProxyView:
         assert "filter" in requests_mock.last_request.json()
         assert all(
             facet not in requests_mock.last_request.json()["facets"]
-            for facet in ["postcode:1400", "woonplaatsNaam:1400"]
+            for facet in ["postcode,count:1400", "woonplaatsNaam,count:1400"]
         )
         assert (
             requests_mock.last_request.json()["filter"]
