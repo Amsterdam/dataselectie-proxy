@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path(
-        "dataselectie/<str:dataset_name>/search",
+        "dataselectie/v2/<str:dataset_name>/search",
         views.ProxySearchView.as_view(),
         name="dataselectie-index",
     )
