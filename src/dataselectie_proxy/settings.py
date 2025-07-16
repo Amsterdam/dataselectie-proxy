@@ -333,6 +333,10 @@ DATAPUNT_AUTHZ = {
 # -- Local app settings
 
 AZURE_SEARCH_BASE_URL = env.str("AZURE_SEARCH_BASE_URL", None)
-AZURE_SEARCH_API_KEY = env.str("AZURE_SEARCH_API_KEY", None)
+
+if _USE_SECRET_STORE or CLOUD_ENV.startswith("azure"):
+    AZURE_SEARCH_API_KEY = Path("/mnt/secrets-store/azure-search-api-key").read_text()
+else:
+    AZURE_SEARCH_API_KEY = env.str("AZURE_SEARCH_API_KEY", None)
 
 DSO_API_BASE_URL = env.str("DSO_API_BASE_URL", None)
