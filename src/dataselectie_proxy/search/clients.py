@@ -155,6 +155,9 @@ class AzureSearchServiceClient(BaseClient):
         request_args["data"]["skip"] = (page_number - 1) * self.page_size
         request_args["data"]["top"] = self.page_size
 
+        # Add count to result
+        request_args["data"]["count"] = True
+
         request_args["data"].update(self._extract_sort_parameters(request_args))
         request_args["data"].update(self._extract_facets_and_filters(request_args, index))
 
