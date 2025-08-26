@@ -6,6 +6,7 @@ class SearchIndex:
     index_name: str
     api_path: str
     facets: set[str]
+    boolean_fields: set[str] | None = field(default_factory=set)
     needed_scopes: set = field(default_factory=set)
 
 
@@ -34,7 +35,11 @@ INDEX_MAPPING = {
             "stadsdeelNaam",
             "ggwNaam",
             "wijkNaam",
-            "buurtNaamTabel",
+            "buurtNaam",
+        },
+        boolean_fields={
+            "grondeigenaar",
+            "pandeigenaar",
         },
         needed_scopes={"brk_rsn"},
     ),
