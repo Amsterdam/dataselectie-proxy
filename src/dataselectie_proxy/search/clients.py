@@ -195,7 +195,11 @@ class AzureSearchServiceClient(BaseClient):
                 continue
 
             value = request_args["params"][param]
-            filter_list.append(f"{param} eq '{value}'")
+            if param in index.boolean_fields:
+                bool_value = value.lower() in ["true", "t", "on", "1"]
+                filter_list.append(f"{param} eq {'true' if bool_value else 'false'}")
+            else:
+                filter_list.append(f"{param} eq '{value}'")
             if param in facets:
                 facets.remove(param)
 

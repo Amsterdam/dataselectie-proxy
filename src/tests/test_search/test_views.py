@@ -1,3 +1,4 @@
+import pytest
 from django.urls import reverse
 
 from tests.utils import build_jwt_token
@@ -94,6 +95,23 @@ class TestProxyView:
             == "postcode eq '1000AA' and woonplaatsNaam eq 'Amsterdam' "
             "and huisnummer eq '10' and huisnummerToevoeging eq 'A'"
         )
+
+    @pytest.mark.parametrize("true_value", ["True", "true", "1", "on", "t"])
+    def test_boolean_filters(self, api_client, requests_mock, true_value):
+        """Prove boolean filters are parsed correctly"""
+        requests_mock.post(
+            "/benkagg_brkbasisdataselectie/docs/search?api-version=2024-07-01",
+        )
+
+        url = reverse("dataselectie-index", kwargs={"dataset_name": "brk"})
+
+        token = build_jwt_token(["brk_rsn"])
+        api_client.get(
+            url, data={"grondeigenaar": true_value}, headers={"Authorization": f"Bearer {token}"}
+        )
+
+        assert "filter" in requests_mock.last_request.json()
+        assert requests_mock.last_request.json()["filter"] == "grondeigenaar eq true"
 
     def test_export_uses_dso_client(self, api_client, requests_mock):
         """Prove export uses a GET request to the DSO API"""
