@@ -196,7 +196,7 @@ class AzureSearchServiceClient(BaseClient):
             if param in facets:
                 facets.remove(param)
 
-        facet_list = [f"{facet},count:1400" for facet in facets]
+        facet_list = [f"{facet},count:1400,sort:value" for facet in facets]
 
         return {
             "facets": facet_list,
