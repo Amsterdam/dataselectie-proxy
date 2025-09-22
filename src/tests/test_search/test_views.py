@@ -41,7 +41,7 @@ class TestProxyView:
             "/benkagg_brkbasisdataselectie/docs/search?api-version=2024-07-01",
         )
 
-        token = build_jwt_token(["brk_rsn"])
+        token = build_jwt_token(["BRK/RSN"])
         api_client.get(url, headers={"Authorization": f"Bearer {token}"})
 
         assert "benkagg_brkbasisdataselectie" in requests_mock.last_request.url
@@ -105,7 +105,7 @@ class TestProxyView:
 
         url = reverse("dataselectie-index", kwargs={"dataset_name": "brk"})
 
-        token = build_jwt_token(["brk_rsn"])
+        token = build_jwt_token(["BRK/RSN"])
         api_client.get(
             url, data={"grondeigenaar": true_value}, headers={"Authorization": f"Bearer {token}"}
         )

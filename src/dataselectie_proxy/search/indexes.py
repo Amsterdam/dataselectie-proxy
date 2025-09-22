@@ -41,7 +41,7 @@ INDEX_MAPPING = {
             "grondeigenaar",
             "pandeigenaar",
         },
-        needed_scopes={"brk_rsn"},
+        needed_scopes={"BRK/RSN"},
     ),
     "hr": SearchIndex(
         index_name="benkagg_handelsregisterkvk",
@@ -55,6 +55,6 @@ INDEX_MAPPING = {
             "gebiedenStadsdeelNaam",
             "gebiedenWijkNaam",
         },
-        needed_scopes={"fp_mdw"},
+        needed_scopes={"FP/MDW"},
     ),
 }
