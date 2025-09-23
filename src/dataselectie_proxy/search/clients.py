@@ -35,8 +35,10 @@ class BaseClient:
         request_args = self._transform_request_args(request_args, index)
         response = self._call(request_args, index)
 
-        self._remove_hop_by_hop_headers(response)
+        return self._handle_response(response)
 
+    def _handle_response(self, response: requests.Response) -> requests.Response:
+        self._remove_hop_by_hop_headers(response)
         if 200 <= response.status_code < 300:
             return response
 
@@ -138,6 +140,49 @@ class AzureSearchServiceClient(BaseClient):
         super().__init__(base_url)
 
         self._api_key = api_key
+
+    def search_address(self, request: Request, index: SearchIndex) -> requests.Response:
+        """Extra endpoint to provide address search functionality"""
+
+        # Append star for wildcard search in Azure search
+        search_query = f"{request.GET.get('q', '')}*"
+
+        page_number = int(request.GET.get("page", 1))
+        # Set only the required headers and build the request body
+        request_args = {
+            "headers": {
+                "Content-Type": "application/json; charset=utf-8",
+                "api-key": self._api_key,
+            },
+            "json": {
+                "search": search_query,  # Append star for wildcard search
+                "count": True,
+                "facets": [
+                    "openbareruimteNaam,count:10,sort:count",
+                    "postcode,count:20,sort:value",
+                ],
+                "highlight": "openbareruimteNaam,postcode,huisnummerStr,huisletter,"
+                "huisnummertoevoeging",
+                "highlightPostTag": "</em>",
+                "highlightPreTag": "<em>",
+                "minimumCoverage": None,
+                "select": "identificatie,openbareruimteNaam,postcode,huisnummer,huisletter,"
+                "huisnummertoevoeging,woonplaatsNaam,latitude,longitude",
+                "orderby": "search.score() desc,openbareruimteNaam,woonplaatsNaam,huisnummer,"
+                "huisletter,huisnummertoevoeging asc",
+                "queryType": "simple",
+                "searchFields": "openbareruimteNaam,postcode,huisnummerStr,huisletter,"
+                "huisnummertoevoeging",
+                "searchMode": "all",
+                "scoringProfile": "search_address",
+                "scoringStatistics": "global",
+                "skip": (page_number - 1) * self.page_size,
+                "top": self.page_size,
+            },
+        }
+
+        response = self._call(request_args, index)
+        return self._handle_response(response)
 
     def _call(self, request_args: dict, index: SearchIndex) -> requests.Response:
         endpoint_url = (

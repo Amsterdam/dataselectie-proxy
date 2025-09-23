@@ -49,11 +49,11 @@ export DSO_API_BASE_URL={DSO_API_BASE_URL}
 
 Search BAG for a specific postcode:
 
-    curl http://localhost:8000/v1/dataselectie/bag/search?postcode=1012AB
+    curl http://localhost:8000/dataselectie/v2/bag/search?postcode=1012AB
 
 Order results by housenumber:
 
-    curl http://localhost:8000/v1/dataselectie/bag/search?postcode=1012AB&sort=huisnummer
+    curl http://localhost:8000/dataselectie/v2/bag/search?postcode=1012AB&sort=huisnummer
 
 ## Available Parameters
 
@@ -65,6 +65,15 @@ Order results by housenumber:
 
 To narrow down results, use the available fields to filter for values. Facets, filterable and sortable fields are
 defined on an index level.
+
+## Search for address
+
+To provide functionality for an address search an extra endpoint is added. This allows a search on parts of a
+postcode or 'openbareruimteNaam'
+
+    curl http://localhost:8000/dataselectie/v2/bag/search/adres?q=1012
+    curl http://localhost:8000/dataselectie/v2/bag/search/adres?q=oude
+
 
 ## Environment Settings
 
