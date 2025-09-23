@@ -1,9 +1,11 @@
+import json
 import logging
 from urllib.parse import urlparse
 
 import orjson
 import requests
 from more_ds.network import URL
+from requests import JSONDecodeError
 from rest_framework.exceptions import APIException
 from rest_framework.request import Request
 
@@ -34,6 +36,8 @@ class BaseClient:
 
         request_args = self._transform_request_args(request_args, index)
         response = self._call(request_args, index)
+
+        self._change_odata_context(request, response)
 
         return self._handle_response(response)
 
@@ -118,6 +122,17 @@ class BaseClient:
             response.headers.pop(header, None)
 
         return response
+
+    def _change_odata_context(self, request: Request, response: requests.Response) -> None:
+        """Change the odata.context value to our domain instead of Azure search"""
+        try:
+            json_body = response.json()
+        except JSONDecodeError:
+            pass
+        else:
+            if "@odata.context" in json_body:
+                json_body["@odata.context"] = request.build_absolute_uri()
+                response._content = json.dumps(json_body).encode()
 
     def _transform_request_args(self, request_args: dict, index: SearchIndex) -> dict:
         return request_args
@@ -274,5 +289,8 @@ class DSOExportClient(BaseClient):
         params["_format"] = "csv"
 
         request_args["params"] = params
+
+        # Clear request headers
+        request_args["headers"] = {}
 
         return request_args

@@ -9,11 +9,15 @@ class TestProxyView:
     This is tested through the concrete implementations though.
     """
 
+    AZURE_SEARCH_RESPONSE = {
+        "@odata.context": "https://test-bbn1-search.search.windows.net/indexes('benkagg_adresseerbareobjecten')/$metadata#docs(*)",
+        "@odata.count": 13656,
+        "@search.facets": {},
+    }
+
     def test_bag_index(self, api_client, requests_mock):
         """Prove the BAG dataselectie points to the correct index."""
-        requests_mock.post(
-            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
-        )
+        requests_mock.post("/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01")
 
         # Expect bag to be mapped to the index benkagg_adresseerbareobjecten
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -112,6 +116,20 @@ class TestProxyView:
 
         assert "filter" in requests_mock.last_request.json()
         assert requests_mock.last_request.json()["filter"] == "grondeigenaar eq true"
+
+    def test_odata_context_replaced(self, api_client, requests_mock):
+        """Prove page numbers are parsed correctly"""
+        requests_mock.post(
+            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            json=self.AZURE_SEARCH_RESPONSE,
+            headers={"content-type": "application/json"},
+        )
+
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
+        response = api_client.get(url)
+
+        assert "@odata.context" in response.json()
+        assert response.json()["@odata.context"] == "http://testserver/dataselectie/v2/bag/search"
 
     def test_search_address(self, api_client, requests_mock):
         """Prove boolean filters are parsed correctly"""
