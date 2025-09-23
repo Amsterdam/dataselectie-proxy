@@ -40,6 +40,7 @@ INDEX_MAPPING = {
         boolean_fields={
             "grondeigenaar",
             "pandeigenaar",
+            "appartementseigenaar",
         },
         needed_scopes={"BRK/RSN"},
     ),
