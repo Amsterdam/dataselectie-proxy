@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from dataselectie_proxy.search import permissions
 from dataselectie_proxy.search.clients import AzureSearchServiceClient, DSOExportClient
-from dataselectie_proxy.search.indexes import INDEX_MAPPING
+from dataselectie_proxy.search.indexes import INDEX_MAPPING, SearchIndex
 
 
 class ProxySearchView(APIView):
@@ -66,3 +66,26 @@ class ProxySearchView(APIView):
         return super().get_permissions() + [
             permissions.IsUserScope(self.needed_scopes),
         ]
+
+
+class ProxySearchAddressView(APIView):
+    client: AzureSearchServiceClient
+    index: SearchIndex = INDEX_MAPPING["bag"]
+
+    def get_client(self) -> AzureSearchServiceClient:
+        """Provide the AzureSearchServiceClient. This can be overwritten per view if needed."""
+
+        return AzureSearchServiceClient(
+            base_url=settings.AZURE_SEARCH_BASE_URL,
+            api_key=settings.AZURE_SEARCH_API_KEY,
+        )
+
+    def get(self, request: Request, *args, **kwargs):
+        self.client = self.get_client()
+
+        response: Response = self.client.search_address(
+            request=request,
+            index=self.index,
+        )
+
+        return HttpResponse(response, headers=response.headers)

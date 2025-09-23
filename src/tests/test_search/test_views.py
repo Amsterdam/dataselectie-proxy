@@ -16,13 +16,13 @@ class TestProxyView:
         )
 
         # Expect bag to be mapped to the index benkagg_adresseerbareobjecten
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "bag"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url)
         assert "benkagg_adresseerbareobjecten" in requests_mock.last_request.url
 
     def test_non_existing_index(self, api_client):
         """Prove non-existing index returns 404."""
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "non-existent"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "non-existent"})
         response = api_client.get(url)
         assert response.status_code == 404
 
@@ -32,7 +32,7 @@ class TestProxyView:
         accessible with the correct scope.
         """
         # Expect brk to require a token with the correct scope
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "brk"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "brk"})
         response = api_client.get(url)
         assert response.status_code == 403
         assert response.data == {"detail": "Required scopes not given."}
@@ -52,7 +52,7 @@ class TestProxyView:
             "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "bag"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url, data={"page": 4})
         assert "skip" in requests_mock.last_request.json()
         assert requests_mock.last_request.json()["skip"] == 300
@@ -63,7 +63,7 @@ class TestProxyView:
             "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "bag"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url, data={"sort": "param1,-param2"})
         assert "orderby" in requests_mock.last_request.json()
         assert requests_mock.last_request.json()["orderby"] == "param1,param2 desc"
@@ -74,7 +74,7 @@ class TestProxyView:
             "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "bag"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(
             url,
             data={
@@ -103,7 +103,7 @@ class TestProxyView:
             "/benkagg_brkbasisdataselectie/docs/search?api-version=2024-07-01",
         )
 
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "brk"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "brk"})
 
         token = build_jwt_token(["BRK/RSN"])
         api_client.get(
@@ -113,11 +113,30 @@ class TestProxyView:
         assert "filter" in requests_mock.last_request.json()
         assert requests_mock.last_request.json()["filter"] == "grondeigenaar eq true"
 
+    def test_search_address(self, api_client, requests_mock):
+        """Prove boolean filters are parsed correctly"""
+        requests_mock.post(
+            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+        )
+
+        url = reverse("dataselectie-search-address")
+
+        api_client.get(url, data={"q": "oude"})
+
+        last_request = requests_mock.last_request.json()
+
+        assert "search" in last_request
+        assert last_request["search"] == "oude*"
+        # Make sure the correct search profile is used and we order by score
+        assert "scoringProfile" in last_request
+        assert last_request["scoringProfile"] == "search_address"
+        assert last_request["orderby"].startswith("search.score()")
+
     def test_export_uses_dso_client(self, api_client, requests_mock):
         """Prove export uses a GET request to the DSO API"""
         requests_mock.get(
             "https://dso.api/v1/benkagg/adresseerbareobjecten?_format=csv",
         )
 
-        url = reverse("dataselectie-index", kwargs={"dataset_name": "bag"})
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url, data={"export": "true"})
