@@ -160,3 +160,18 @@ class TestProxyView:
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url, data={"export": "true"})
+
+        assert requests_mock.call_count == 1
+
+    def test_export_passes_along_authorization(self, api_client, requests_mock):
+        """Prove export uses a GET request to the DSO API with authorization header"""
+        requests_mock.get(
+            "https://dso.api/v1/benkagg/brkbasisdataselectie?_format=csv",
+        )
+
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "brk"})
+
+        token = build_jwt_token(["BRK/RSN"])
+        api_client.get(url, data={"export": "true"}, headers={"Authorization": f"Bearer {token}"})
+
+        assert "authorization" in requests_mock.last_request.headers
