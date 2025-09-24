@@ -291,7 +291,9 @@ class DSOExportClient(BaseClient):
 
         request_args["params"] = params
 
-        # Clear request headers
-        request_args["headers"] = {}
+        # Clear request headers, except pass along authorization
+        request_args["headers"] = {
+            k: v for k, v in request_args["headers"].items() if k == "Authorization"
+        }
 
         return request_args
