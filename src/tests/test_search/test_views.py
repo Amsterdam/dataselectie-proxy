@@ -86,6 +86,7 @@ class TestProxyView:
                 "woonplaatsNaam": "Amsterdam",
                 "huisnummer": 10,
                 "huisnummerToevoeging": "A",
+                "openbareruimteNaam": "'s-Gravelandse Veer",
             },
         )
         assert "facets" in requests_mock.last_request.json()
@@ -97,7 +98,8 @@ class TestProxyView:
         assert (
             requests_mock.last_request.json()["filter"]
             == "postcode eq '1000AA' and woonplaatsNaam eq 'Amsterdam' "
-            "and huisnummer eq '10' and huisnummerToevoeging eq 'A'"
+            "and huisnummer eq '10' and huisnummerToevoeging eq 'A' "
+            "and openbareruimteNaam eq '''s-Gravelandse Veer'"
         )
 
     @pytest.mark.parametrize("true_value", ["True", "true", "1", "on", "t"])

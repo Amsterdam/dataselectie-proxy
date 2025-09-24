@@ -259,7 +259,8 @@ class AzureSearchServiceClient(BaseClient):
                 bool_value = value.lower() in ["true", "t", "on", "1"]
                 filter_list.append(f"{param} eq {'true' if bool_value else 'false'}")
             else:
-                filter_list.append(f"{param} eq '{value}'")
+                # Escape single quotes by doubling them for odata filters
+                filter_list.append(f"{param} eq '{value.replace("'", "''")}'")
             if param in facets:
                 facets.remove(param)
 
