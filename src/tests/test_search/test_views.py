@@ -24,6 +24,15 @@ class TestProxyView:
         api_client.get(url)
         assert "benkagg_adresseerbareobjecten" in requests_mock.last_request.url
 
+    def test_bearer_token_present(self, api_client, requests_mock):
+        """Prove the bearer token is added to the Authorization header."""
+        requests_mock.post("/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01")
+
+        # Expect bag to be mapped to the index benkagg_adresseerbareobjecten
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
+        api_client.get(url)
+        assert "Bearer oauth_token" in requests_mock.last_request.headers["Authorization"]
+
     def test_non_existing_index(self, api_client):
         """Prove non-existing index returns 404."""
         url = reverse("dataselectie-search", kwargs={"dataset_name": "non-existent"})

@@ -39,10 +39,7 @@ class ProxySearchView(APIView):
         if is_export_client:
             return DSOExportClient(base_url=settings.DSO_API_BASE_URL)
 
-        return AzureSearchServiceClient(
-            base_url=settings.AZURE_SEARCH_BASE_URL,
-            api_key=settings.AZURE_SEARCH_API_KEY,
-        )
+        return AzureSearchServiceClient(base_url=settings.AZURE_SEARCH_BASE_URL)
 
     def get(self, request: Request, *args, **kwargs):
         # Existence of index has already been verified
@@ -75,10 +72,7 @@ class ProxySearchAddressView(APIView):
     def get_client(self) -> AzureSearchServiceClient:
         """Provide the AzureSearchServiceClient. This can be overwritten per view if needed."""
 
-        return AzureSearchServiceClient(
-            base_url=settings.AZURE_SEARCH_BASE_URL,
-            api_key=settings.AZURE_SEARCH_API_KEY,
-        )
+        return AzureSearchServiceClient(base_url=settings.AZURE_SEARCH_BASE_URL)
 
     def get(self, request: Request, *args, **kwargs):
         self.client = self.get_client()
