@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
+from azure.identity import DefaultAzureCredential
+from dataselectie_proxy.search.clients import AzureSearchServiceClient
 from django.core.handlers.wsgi import WSGIRequest
 from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory
@@ -49,3 +53,24 @@ def common_headers(request) -> dict:
         "X-User": "foobar",
         "X-Task-Description": "unittest",
     }
+
+
+@pytest.fixture(autouse=True)
+def mock_default_credential():
+    with patch.object(DefaultAzureCredential, "__init__") as mock_credential:
+        mock_credential.return_value = None
+        yield mock_credential
+
+
+@dataclass
+class AccessToken:
+    token: str  # bearer
+    expires_on: int
+
+
+@pytest.fixture(autouse=True)
+def mock_fetch_token():
+    with patch.object(AzureSearchServiceClient, "_fetch_token") as mock_fetch_token:
+        token = AccessToken(token="oauth_token", expires_on=3600)
+        mock_fetch_token.return_value = token
+        yield mock_fetch_token

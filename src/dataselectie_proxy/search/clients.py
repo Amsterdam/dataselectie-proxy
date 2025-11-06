@@ -4,6 +4,8 @@ from urllib.parse import urlparse
 
 import orjson
 import requests
+from azure.core.credentials import AccessToken
+from azure.identity import DefaultAzureCredential
 from more_ds.network import URL
 from requests import JSONDecodeError
 from rest_framework.exceptions import APIException
@@ -146,7 +148,7 @@ class AzureSearchServiceClient(BaseClient):
     api_version: str = "2024-07-01"
     page_size: int = 100
 
-    def __init__(self, base_url: URL, api_key) -> None:
+    def __init__(self, base_url: URL) -> None:
         """Initialize the client configuration.
 
         :param base_url: Base URL of the Azure Search Service
@@ -154,7 +156,10 @@ class AzureSearchServiceClient(BaseClient):
         """
         super().__init__(base_url)
 
-        self._api_key = api_key
+        self._credential = DefaultAzureCredential()
+
+    def _fetch_token(self) -> AccessToken:
+        return self._credential.get_token("https://search.azure.com/.default")
 
     def search_address(self, request: Request, index: SearchIndex) -> requests.Response:
         """Extra endpoint to provide address search functionality"""
@@ -163,12 +168,10 @@ class AzureSearchServiceClient(BaseClient):
         search_query = f"{request.GET.get('q', '')}*"
 
         page_number = int(request.GET.get("page", 1))
+
         # Set only the required headers and build the request body
         request_args = {
-            "headers": {
-                "Content-Type": "application/json; charset=utf-8",
-                "api-key": self._api_key,
-            },
+            "headers": self._get_headers(),
             "json": {
                 "search": search_query,  # Append star for wildcard search
                 "count": True,
@@ -224,10 +227,7 @@ class AzureSearchServiceClient(BaseClient):
         request_args["json"] = request_args["data"]
 
         # Set only the required headers
-        request_args["headers"] = {
-            "Content-Type": "application/json; charset=utf-8",
-            "api-key": self._api_key,
-        }
+        request_args["headers"] = self._get_headers()
 
         # Remove any url parameters and data since we're using json
         del request_args["params"]
@@ -269,6 +269,15 @@ class AzureSearchServiceClient(BaseClient):
         return {
             "facets": facet_list,
             "filter": " and ".join(filter_list),
+        }
+
+    def _get_headers(self) -> dict:
+        # Get a token from the managed identity to use in the request
+        token = self._fetch_token()
+
+        return {
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": f"Bearer {token.token} ",
         }
 
 
