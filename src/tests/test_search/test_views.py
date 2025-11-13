@@ -17,7 +17,9 @@ class TestProxyView:
 
     def test_bag_index(self, api_client, requests_mock):
         """Prove the BAG dataselectie points to the correct index."""
-        requests_mock.post("/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01")
+        requests_mock.post(
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview"
+        )
 
         # Expect bag to be mapped to the index benkagg-adresseerbareobjecten
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -26,7 +28,9 @@ class TestProxyView:
 
     def test_bearer_token_present(self, api_client, requests_mock):
         """Prove the bearer token is added to the Authorization header."""
-        requests_mock.post("/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01")
+        requests_mock.post(
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview"
+        )
 
         # Expect bag to be mapped to the index benkagg-adresseerbareobjecten
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -62,7 +66,7 @@ class TestProxyView:
     def test_page_numbers(self, api_client, requests_mock):
         """Prove page numbers are parsed correctly"""
         requests_mock.post(
-            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -73,7 +77,7 @@ class TestProxyView:
     def test_sort_parameters(self, api_client, requests_mock):
         """Prove sort parameters are parsed correctly"""
         requests_mock.post(
-            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -84,7 +88,7 @@ class TestProxyView:
     def test_filters_and_facets(self, api_client, requests_mock):
         """Prove filters and facets parameters are parsed correctly"""
         requests_mock.post(
-            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -115,7 +119,7 @@ class TestProxyView:
     def test_boolean_filters(self, api_client, requests_mock, true_value):
         """Prove boolean filters are parsed correctly"""
         requests_mock.post(
-            "/benkagg_brkbasisdataselectie/docs/search?api-version=2025-08-01-preview",
+            "/benkagg-brkbasisdataselectie/docs/search?api-version=2025-08-01-preview",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "brk"})
@@ -131,7 +135,7 @@ class TestProxyView:
     def test_odata_context_replaced(self, api_client, requests_mock):
         """Prove page numbers are parsed correctly"""
         requests_mock.post(
-            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview",
             json=self.AZURE_SEARCH_RESPONSE,
             headers={"content-type": "application/json"},
         )
@@ -145,7 +149,7 @@ class TestProxyView:
     def test_search_address(self, api_client, requests_mock):
         """Prove boolean filters are parsed correctly"""
         requests_mock.post(
-            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2025-08-01-preview",
         )
 
         url = reverse("dataselectie-search-address")
