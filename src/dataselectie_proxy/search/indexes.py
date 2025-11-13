@@ -12,7 +12,7 @@ class SearchIndex:
 
 INDEX_MAPPING = {
     "bag": SearchIndex(
-        index_name="benkagg_adresseerbareobjecten",
+        index_name="benkagg-adresseerbareobjecten",
         api_path="benkagg/adresseerbareobjecten",
         facets={
             "woonplaatsNaam",
@@ -25,7 +25,7 @@ INDEX_MAPPING = {
         },
     ),
     "brk": SearchIndex(
-        index_name="benkagg_brkbasisdataselectie",
+        index_name="benkagg-brkbasisdataselectie",
         api_path="benkagg/brkbasisdataselectie",
         facets={
             "grondeigenaar",
@@ -45,7 +45,7 @@ INDEX_MAPPING = {
         needed_scopes={"BRK/RSN"},
     ),
     "hr": SearchIndex(
-        index_name="benkagg_handelsregisterkvk",
+        index_name="benkagg-handelsregisterkvk",
         api_path="benkagg/handelsregisterkvk",
         facets={
             "bagOpenbareruimteNaam",
