@@ -10,25 +10,25 @@ class TestProxyView:
     """
 
     AZURE_SEARCH_RESPONSE = {
-        "@odata.context": "https://test-bbn1-search.search.windows.net/indexes('benkagg_adresseerbareobjecten')/$metadata#docs(*)",
+        "@odata.context": "https://test-bbn1-search.search.windows.net/indexes('benkagg-adresseerbareobjecten')/$metadata#docs(*)",
         "@odata.count": 13656,
         "@search.facets": {},
     }
 
     def test_bag_index(self, api_client, requests_mock):
         """Prove the BAG dataselectie points to the correct index."""
-        requests_mock.post("/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01")
+        requests_mock.post("/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01")
 
-        # Expect bag to be mapped to the index benkagg_adresseerbareobjecten
+        # Expect bag to be mapped to the index benkagg-adresseerbareobjecten
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url)
-        assert "benkagg_adresseerbareobjecten" in requests_mock.last_request.url
+        assert "benkagg-adresseerbareobjecten" in requests_mock.last_request.url
 
     def test_bearer_token_present(self, api_client, requests_mock):
         """Prove the bearer token is added to the Authorization header."""
-        requests_mock.post("/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01")
+        requests_mock.post("/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01")
 
-        # Expect bag to be mapped to the index benkagg_adresseerbareobjecten
+        # Expect bag to be mapped to the index benkagg-adresseerbareobjecten
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
         api_client.get(url)
         assert "Bearer oauth_token" in requests_mock.last_request.headers["Authorization"]
@@ -62,7 +62,7 @@ class TestProxyView:
     def test_page_numbers(self, api_client, requests_mock):
         """Prove page numbers are parsed correctly"""
         requests_mock.post(
-            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -73,7 +73,7 @@ class TestProxyView:
     def test_sort_parameters(self, api_client, requests_mock):
         """Prove sort parameters are parsed correctly"""
         requests_mock.post(
-            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -84,7 +84,7 @@ class TestProxyView:
     def test_filters_and_facets(self, api_client, requests_mock):
         """Prove filters and facets parameters are parsed correctly"""
         requests_mock.post(
-            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -131,7 +131,7 @@ class TestProxyView:
     def test_odata_context_replaced(self, api_client, requests_mock):
         """Prove page numbers are parsed correctly"""
         requests_mock.post(
-            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
             json=self.AZURE_SEARCH_RESPONSE,
             headers={"content-type": "application/json"},
         )
@@ -145,7 +145,7 @@ class TestProxyView:
     def test_search_address(self, api_client, requests_mock):
         """Prove boolean filters are parsed correctly"""
         requests_mock.post(
-            "/benkagg_adresseerbareobjecten/docs/search?api-version=2024-07-01",
+            "/benkagg-adresseerbareobjecten/docs/search?api-version=2024-07-01",
         )
 
         url = reverse("dataselectie-search-address")
