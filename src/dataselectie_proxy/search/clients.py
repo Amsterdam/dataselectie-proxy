@@ -145,7 +145,7 @@ class AzureSearchServiceClient(BaseClient):
     Client for the Azure Search Service
     """
 
-    api_version: str = "2024-07-01"
+    api_version: str = "2025-08-01-preview"
     page_size: int = 100
 
     def __init__(self, base_url: URL) -> None:
