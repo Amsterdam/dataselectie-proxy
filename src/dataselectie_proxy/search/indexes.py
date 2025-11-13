@@ -55,6 +55,7 @@ INDEX_MAPPING = {
             "gebiedenGgwgebiedNaam",
             "gebiedenStadsdeelNaam",
             "gebiedenWijkNaam",
+            "gemeente",
         },
         needed_scopes={"FP/MDW"},
     ),
