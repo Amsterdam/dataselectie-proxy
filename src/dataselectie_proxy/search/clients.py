@@ -6,6 +6,7 @@ import orjson
 import requests
 from azure.core.credentials import AccessToken
 from azure.identity import DefaultAzureCredential
+from django.conf import settings
 from more_ds.network import URL
 from requests import JSONDecodeError
 from rest_framework.exceptions import APIException
@@ -159,7 +160,10 @@ class AzureSearchServiceClient(BaseClient):
         self._credential = DefaultAzureCredential()
 
     def _fetch_token(self) -> AccessToken:
-        return self._credential.get_token("https://search.azure.com/.default")
+        if settings.CLOUD_ENV == "local":
+            return settings.DEV_TOKEN
+        else:
+            return self._credential.get_token("https://search.azure.com/.default")
 
     def search_address(self, request: Request, index: SearchIndex) -> requests.Response:
         """Extra endpoint to provide address search functionality"""

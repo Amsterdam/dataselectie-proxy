@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import environ
+from azure.identity.broker import InteractiveBrowserBrokerCredential
 from corsheaders.defaults import default_headers
 from pythonjsonlogger import jsonlogger
 
@@ -277,6 +278,10 @@ if CLOUD_ENV.startswith("azure"):
                     "console",
                 ]
         print("Audit logging has been enabled")
+elif CLOUD_ENV == "local":
+    DEV_TOKEN = InteractiveBrowserBrokerCredential(use_default_broker_account=True).get_token(
+        "https://search.azure.com/.default"
+    )
 
 
 # -- Third party app settings

@@ -16,3 +16,5 @@ termcolor==3.3.0
 # Debugging
 django-debug-toolbar==6.1.0
 django-extensions==4.1
+
+azure-identity-broker==1.2.0
