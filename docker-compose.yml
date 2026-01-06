@@ -1,11 +1,13 @@
 services:
   web:
+    network_mode: host
     build:
       context: src/
+      network: host
       args:
         PIP_REQUIREMENTS: requirements_dev.txt
     ports:
-      - "8097:8000"
+      - "8000:8000"
     environment:
       UWSGI_STATIC_MAP: "/dataselectie_proxy/static=/static"
       SECRET_KEY: insecure
