@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, StreamingHttpResponse
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -41,6 +41,12 @@ class ProxySearchView(APIView):
 
         return AzureSearchServiceClient(base_url=settings.AZURE_SEARCH_BASE_URL)
 
+    def stream(self, response: Response):
+        try:
+            yield from response.iter_content(chunk_size=4096)
+        finally:
+            response.close()
+
     def get(self, request: Request, *args, **kwargs):
         # Existence of index has already been verified
         index = INDEX_MAPPING[kwargs["dataset_name"]]
@@ -52,7 +58,15 @@ class ProxySearchView(APIView):
             index=index,
         )
 
-        return HttpResponse(response, headers=response.headers)
+        if self.client == DSOExportClient:
+            stream_response = StreamingHttpResponse(
+                streaming_content=self.stream(response),
+                content_type="text/csv",
+            )
+            stream_response["Content-Disposition"] = "attachment; filename={filename}.csv"
+            return stream_response
+        else:
+            return HttpResponse(response, headers=response.headers)
 
     def get_permissions(self):
         """Collect the DRF permission checks.

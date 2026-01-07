@@ -293,6 +293,7 @@ class DSOExportClient(BaseClient):
         return self._session.request(
             "GET",
             endpoint_url,
+            stream=True,
             **request_args,
         )
 
