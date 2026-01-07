@@ -25,6 +25,7 @@ services:
 
       DSO_API_BASE_URL: "${DSO_API_BASE_URL:-https://api.data.amsterdam.nl}"
       CLOUD_ENV: "${CLOUD_ENV:-local}"
+      ACCESS_TOKEN: "${ACCESS_TOKEN:-}"
       DJANGO_DEBUG: 1
     volumes:
       - ./src:/app
