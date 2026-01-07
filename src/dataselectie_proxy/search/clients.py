@@ -161,7 +161,7 @@ class AzureSearchServiceClient(BaseClient):
 
     def _fetch_token(self) -> AccessToken:
         if settings.CLOUD_ENV == "local":
-            return settings.DEV_TOKEN
+            return settings.ACCESS_TOKEN
         else:
             return self._credential.get_token("https://search.azure.com/.default")
 

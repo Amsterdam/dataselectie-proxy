@@ -25,7 +25,7 @@ jobs:
       run: docker compose -f "docker-compose.yml" up web -d --build
 
     - name: Run tests
-      run: docker compose exec -T web pytest -v --ds=tests.settings --show-capture=no
+      run: docker compose exec -e CLOUD_ENV=default -T web pytest -v --ds=tests.settings --show-capture=no
 
     - name: Stop containers
       if: always()
