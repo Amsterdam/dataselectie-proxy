@@ -38,9 +38,10 @@ Set the required environment variables and start the Django application:
 ```shell
 export PUB_JWKS="$(cat jwks_test.json)"
 export DJANGO_DEBUG=true
+export CLOUD_ENV=local
 export AZURE_SEARCH_BASE_URL={AZURE_SEARCH_API_KEY}
-export AZURE_SEARCH_API_KEY={AZURE_SEARCH_API_KEY}
 export DSO_API_BASE_URL={DSO_API_BASE_URL}
+export ACCESS_TOKEN=$(az account get-access-token --resource=https://search.azure.com/)
 
 ./manage.py runserver localhost:8000
 ```
@@ -88,7 +89,6 @@ The following environment variables are useful for configuring a local developme
 Connections:
 
 * `AZURE_SEARCH_BASE_URL` endpoint for the Azure Search Service.
-* `AZURE_SEARCH_API_KEY` api key for the Azure Search Service.
 * `DSO_API_BASE_URL` endpoint for DSO API.
 
 Deployment:

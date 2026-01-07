@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import environ
-from azure.identity.broker import InteractiveBrowserBrokerCredential
+from azure.core.credentials import AccessToken
 from corsheaders.defaults import default_headers
 from pythonjsonlogger import jsonlogger
 
@@ -279,9 +279,8 @@ if CLOUD_ENV.startswith("azure"):
                 ]
         print("Audit logging has been enabled")
 elif CLOUD_ENV == "local":
-    DEV_TOKEN = InteractiveBrowserBrokerCredential(use_default_broker_account=True).get_token(
-        "https://search.azure.com/.default"
-    )
+    DEV_TOKEN = env.json("ACCESS_TOKEN")
+    ACCESS_TOKEN = AccessToken(DEV_TOKEN["accessToken"], expires_on=DEV_TOKEN["expires_on"])
 
 
 # -- Third party app settings
