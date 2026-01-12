@@ -52,21 +52,22 @@ class ProxySearchView(APIView):
         index = INDEX_MAPPING[kwargs["dataset_name"]]
 
         self.client = self.get_client(is_export_client=request.query_params.get("export", False))
+        is_export = self.client is DSOExportClient
 
-        response: Response = self.client.call(
+        response: Response = self.client.call(  # calls BaseClient to obtain response
             request=request,
             index=index,
+            stream=is_export,
         )
 
-        if self.client == DSOExportClient:
+        if is_export:
             stream_response = StreamingHttpResponse(
                 streaming_content=self.stream(response),
                 content_type="text/csv",
             )
             stream_response["Content-Disposition"] = "attachment; filename={filename}.csv"
             return stream_response
-        else:
-            return HttpResponse(response, headers=response.headers)
+        return HttpResponse(response, headers=response.headers)
 
     def get_permissions(self):
         """Collect the DRF permission checks.
