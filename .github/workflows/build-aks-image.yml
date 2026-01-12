@@ -12,15 +12,15 @@ on:
   workflow_dispatch:
 
 jobs:
-    build:
-        name: Call Azure Pipeline
-        runs-on: ubuntu-latest
-        steps:
-        - name: Call Azure
-          uses: amsterdam/trigger-ado-pipeline@v1
-          with:
-            pipeline-id: ${{ secrets.AZURE_DEVOPS_PIPELINE_ID }}
-            organisation: ${{ secrets.AZURE_DEVOPS_ORG }}
-            project: ${{ secrets.AZURE_DEVOPS_PROJECT }}
-            pat-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            template-params: '{"environments": "- dev\n- test\n- acc", "branch": "main", "akscluster": "blue"}'
+  build:
+    name: Call Azure Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Azure
+        uses: amsterdam/trigger-ado-pipeline@v1
+        with:
+          pipeline-id: ${{ secrets.AZURE_DEVOPS_PIPELINE_ID }}
+          organisation: ${{ secrets.AZURE_DEVOPS_ORG }}
+          project: ${{ secrets.AZURE_DEVOPS_PROJECT }}
+          pat-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+          template-params: '{"environment": "- dev\n- test\n- acc", "branch": "main", "akscluster": "blue", "includeSql": "v2"}'
