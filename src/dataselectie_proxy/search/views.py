@@ -1,5 +1,9 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.http import Http404, HttpResponse, StreamingHttpResponse
+from django.utils.http import content_disposition_header
+from django.utils.timezone import get_current_timezone
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -47,25 +51,35 @@ class ProxySearchView(APIView):
         finally:
             response.close()
 
+    def get_filename(self, index):
+        name = index.index_name
+        now = datetime.now(tz=get_current_timezone()).isoformat()
+
+        return f"{name}-{now}.csv"
+
     def get(self, request: Request, *args, **kwargs):
         # Existence of index has already been verified
         index = INDEX_MAPPING[kwargs["dataset_name"]]
 
         self.client = self.get_client(is_export_client=request.query_params.get("export", False))
-        is_export = self.client is DSOExportClient
+        is_export = isinstance(self.client, DSOExportClient)
 
-        response: Response = self.client.call(  # calls BaseClient to obtain response
+        response: Response = self.client.call(
             request=request,
             index=index,
             stream=is_export,
         )
 
         if is_export:
+            filename = self.get_filename(index)
             stream_response = StreamingHttpResponse(
                 streaming_content=self.stream(response),
                 content_type="text/csv",
             )
-            stream_response["Content-Disposition"] = "attachment; filename={filename}.csv"
+            stream_response["Content-Disposition"] = content_disposition_header(
+                as_attachment=True,
+                filename=filename,
+            )
             return stream_response
         return HttpResponse(response, headers=response.headers)
 

@@ -43,10 +43,10 @@ class BaseClient:
         response = self._call(request_args, index)
 
         if stream:
-            return self._handle_response(response)
+            return self._handle_response(response, stream)
         else:
             self._change_odata_context(request, response)
-            return self._handle_response(response)
+            return self._handle_response(response, stream)
 
     def _handle_response(
         self, response: requests.Response, stream: bool = False
