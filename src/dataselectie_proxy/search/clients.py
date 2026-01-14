@@ -34,23 +34,30 @@ class BaseClient:
         self._host = urlparse(base_url).netloc
         self._session = requests.Session()
 
-    def call(self, request: Request, index: SearchIndex) -> requests.Response:
-        request_args = self._extract_request_args(request)
+    def call(
+        self, request: Request, index: SearchIndex, stream: bool = False
+    ) -> requests.Response:
+        request_args = self._extract_request_args(request, stream=stream)
 
         request_args = self._transform_request_args(request_args, index)
         response = self._call(request_args, index)
 
-        self._change_odata_context(request, response)
+        if not stream:
+            self._change_odata_context(request, response)
+        return self._handle_response(response, stream)
 
-        return self._handle_response(response)
-
-    def _handle_response(self, response: requests.Response) -> requests.Response:
+    def _handle_response(
+        self, response: requests.Response, stream: bool = False
+    ) -> requests.Response:
         self._remove_hop_by_hop_headers(response)
         if 200 <= response.status_code < 300:
             return response
 
         # Raise exception in nicer format, but chain with the original one
         # so the "response" object is still accessible via __cause__.response.
+        if stream:
+            raise self._get_http_error(response)
+
         try:
             response.raise_for_status()
         except requests.HTTPError as e:
@@ -96,12 +103,18 @@ class BaseClient:
     def _call(self, request_args: dict, index: SearchIndex) -> requests.Response:
         raise NotImplementedError
 
-    def _extract_request_args(self, request: Request) -> dict:
-        return {
+    def _extract_request_args(self, request: Request, stream: bool = False) -> dict:
+        args = {
             "headers": dict(request.headers),
             "params": request.GET,
-            "data": request.data,
         }
+
+        if stream:
+            args["data"] = request.stream
+        else:
+            args["data"] = request.data
+
+        return args
 
     def _remove_hop_by_hop_headers(self, response: requests.Response) -> requests.Response:
         """
@@ -293,6 +306,7 @@ class DSOExportClient(BaseClient):
         return self._session.request(
             "GET",
             endpoint_url,
+            stream=True,
             **request_args,
         )
 

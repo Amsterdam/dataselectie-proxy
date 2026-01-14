@@ -1,4 +1,5 @@
 import pytest
+from django.http import StreamingHttpResponse
 from django.urls import reverse
 
 from tests.utils import build_jwt_token
@@ -188,3 +189,15 @@ class TestProxyView:
         api_client.get(url, data={"export": "true"}, headers={"Authorization": f"Bearer {token}"})
 
         assert "authorization" in requests_mock.last_request.headers
+
+    def test_export_streaming_dso_client(self, api_client, requests_mock):
+        """Prove export uses a streaming response to the DSO API"""
+        requests_mock.get(
+            "https://dso.api/v1/benkagg/adresseerbareobjecten?_format=csv",
+        )
+
+        url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
+        response = api_client.get(url, data={"export": "true"})
+
+        assert requests_mock.call_count == 1
+        assert isinstance(response, StreamingHttpResponse)
