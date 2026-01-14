@@ -61,8 +61,8 @@ class ProxySearchView(APIView):
         # Existence of index has already been verified
         index = INDEX_MAPPING[kwargs["dataset_name"]]
 
-        self.client = self.get_client(is_export_client=request.query_params.get("export", False))
-        is_export = isinstance(self.client, DSOExportClient)
+        is_export = request.query_params.get("export", False)
+        self.client = self.get_client(is_export_client=is_export)
 
         response: Response = self.client.call(
             request=request,
@@ -74,7 +74,6 @@ class ProxySearchView(APIView):
             filename = self.get_filename(index)
             stream_response = StreamingHttpResponse(
                 streaming_content=self.stream(response),
-                content_type="text/csv",
             )
             stream_response["Content-Disposition"] = content_disposition_header(
                 as_attachment=True,
