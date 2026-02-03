@@ -73,7 +73,7 @@ class ProxySearchView(APIView):
         if is_export:
             filename = self.get_filename(index)
             stream_response = StreamingHttpResponse(
-                streaming_content=self.stream(response),
+                streaming_content=self.stream(response), headers=response.headers
             )
             stream_response["Content-Disposition"] = content_disposition_header(
                 as_attachment=True,
