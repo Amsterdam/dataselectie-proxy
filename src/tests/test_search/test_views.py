@@ -194,6 +194,7 @@ class TestProxyView:
         """Prove export uses a streaming response to the DSO API"""
         requests_mock.get(
             "https://dso.api/v1/benkagg/adresseerbareobjecten?_format=csv",
+            headers={"content-type": "text/csv"},
         )
 
         url = reverse("dataselectie-search", kwargs={"dataset_name": "bag"})
@@ -201,3 +202,4 @@ class TestProxyView:
 
         assert requests_mock.call_count == 1
         assert isinstance(response, StreamingHttpResponse)
+        assert response.headers["content-type"] == "text/csv"

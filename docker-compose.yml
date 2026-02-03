@@ -1,6 +1,5 @@
 services:
   web:
-    network_mode: host
     build:
       context: src/
       network: host
