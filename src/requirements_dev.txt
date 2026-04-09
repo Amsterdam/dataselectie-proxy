@@ -478,9 +478,9 @@ cryptography==46.0.7 \
     #   jwcrypto
     #   msal
     #   pyjwt
-datapunt-authorization-django==2.0.3 \
-    --hash=sha256:8aca682bec7e1b640a945323040b9f66bdf6b58e279c8bb3eb6ffd50cf9bad7f \
-    --hash=sha256:8f08161fd605f7bc418f7fb65fecdfbf69a48ec5decf3837e454deda1fd14ea4
+datapunt-authorization-django==2.0.4 \
+    --hash=sha256:1d93d042e85febd2d9aa8b042dd3cd29b5633fd1726676b75b40375c9506b780 \
+    --hash=sha256:88b700739397747a6e2f89a8cb3daba0b67aaf3929d02168c8a330869af7a503
     # via -r requirements.in
 distlib==0.4.0 \
     --hash=sha256:9659f7d87e46584a30b5780e43ac7a2143098441670ff0a49d5f9034c54a6c16 \
@@ -547,9 +547,9 @@ isodate==0.7.2 \
     --hash=sha256:28009937d8031054830160fce6d409ed342816b543597cece116d966c6d99e15 \
     --hash=sha256:4cd1aa0f43ca76f4a6c6c0292a85f40b35ec2e43e315b59f06e6d32171a953e6
     # via msrest
-jwcrypto==1.5.6 \
-    --hash=sha256:150d2b0ebbdb8f40b77f543fb44ffd2baeff48788be71f67f03566692fd55789 \
-    --hash=sha256:771a87762a0c081ae6166958a954f80848820b2ab066937dc8b8379d65b1b039
+jwcrypto==1.5.7 \
+    --hash=sha256:70204d7cca406eda8c82352e3c41ba2d946610dafd19e54403f0a1f4f18633c6 \
+    --hash=sha256:729463fefe28b6de5cf1ebfda3e94f1a1b41d2799148ef98a01cb9678ebe2bb0
     # via datapunt-authorization-django
 more-ds==0.0.6 \
     --hash=sha256:777df5b01e3a492ccccd4058156e7d916013e02e85248a8b2c2ca1d1ab13789b \
