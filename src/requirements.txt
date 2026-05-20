@@ -762,9 +762,9 @@ python-owasp-zap-v2-4==0.1.0 \
     --hash=sha256:2af4252320b3b77a38712081422688e676e038306cf1f2792feed811235afa8b \
     --hash=sha256:d4dc00387b0089d81683be01b8272577ad39fb47674377f65c7da0fd30b8abe9
     # via -r requirements.in
-requests==2.33.1 \
-    --hash=sha256:18817f8c57c6263968bc123d237e3b8b08ac046f5456bd1e307ee8f4250d3517 \
-    --hash=sha256:4e6d1ef462f3626a1f0a0a9c42dd93c63bad33f9f1c1937509b8c5c8718ab56a
+requests==2.34.2 \
+    --hash=sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0 \
+    --hash=sha256:f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed
     # via
     #   -r requirements.in
     #   azure-core
