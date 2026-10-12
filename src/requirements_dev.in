@@ -2,11 +2,11 @@
 
 # Packaging
 pur == 7.4.0
-pip-tools==7.6.1
+pip-tools==7.6.2
 
 # Linting
 pre-commit==4.6.2
-black==26.5.1
+black==26.10.0
 ruff==0.16.10
 
 # Testing
