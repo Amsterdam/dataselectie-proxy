@@ -2,7 +2,6 @@ services:
   web:
     build:
       context: src/
-      network: host
       args:
         PIP_REQUIREMENTS: requirements_dev.txt
     ports:

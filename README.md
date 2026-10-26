@@ -16,7 +16,17 @@ Run docker compose:
 docker compose up
 ```
 
-Navigate to `localhost:8097`.
+Navigate to `localhost:8000`.
+
+The base configuration uses default build networking and is also used by CI.
+To opt into host networking during local development builds, for local development authentication,
+add the development override explicitly:
+
+```shell
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+Use the same two `-f` options for subsequent commands such as `down`.
 
 ### Using Local Python
 
