@@ -9,28 +9,24 @@ help:
 
 .PHONY: install
 install:                               ## Perform all install steps
-	pip --require-virtualenv install -r requirements_dev.txt
-	pre-commit install
+	uv sync
+	uv run pre-commit install
 
 .PHONY: sync
 sync:                                  ## Install packages, remove unmentioned packages
-	pip-sync requirements.txt requirements_dev.txt
+	uv sync
 
 ##
 ## Package management:
 ##
 
-.PHONY: requirements
-requirements: requirements.in requirements_dev.in  ## Re-generate the requirements/base.txt file for pip.
-	pip-compile -v --generate-hashes --output-file requirements.txt requirements.in
-	pip-compile -v --generate-hashes --output-file requirements_dev.txt requirements_dev.in
+.PHONY: lock
+lock:                                  ## Update the uv lockfile
+	uv lock
 
 .PHONY: upgrade
-upgrade:                               ## Tool to upgrade the backend dependencies.
-	pur --patch=Django -r requirements.in
-	pur --no-recursive -r requirements_dev.in
-	pip-compile -v --generate-hashes --upgrade --output-file requirements.txt requirements.in
-	pip-compile -v --generate-hashes --upgrade --output-file requirements_dev.txt requirements_dev.in
+upgrade:                               ## Upgrade locked dependencies
+	uv sync --upgrade
 
 ##
 ## Testing:
@@ -38,26 +34,30 @@ upgrade:                               ## Tool to upgrade the backend dependenci
 
 .PHONY: test
 test:                                  ## Run the test-suite.
-	pytest --reuse-db --nomigrations -vs .
+	uv run pytest --reuse-db --nomigrations -vs .
 
 .PHONY: test
 retest:                                ## Run the failed tests again.
-	pytest --reuse-db --nomigrations -vvs --lf .
+	uv run pytest --reuse-db --nomigrations -vvs --lf .
 
 .PHONY: coverage
 coverage:
-	py.test --reuse-db --nomigrations --cov --cov-report=term-missing
+	uv run pytest --reuse-db --nomigrations --cov --cov-report=term-missing
 
 ##
 ## Development tools:
 ##
 
 format:                                ## Fix code-formatting of all files.
-	black .
-	ruff check --fix-only .
+	uv run ruff check --fix-only .
+	uv run ruff format .
 #	pre-commit run -a
 
 lint:                                  ## Report linting errors for all files
-	ruff check .
+	uv run ruff check .
+
+.PHONY: typecheck
+typecheck:                             ## Run the type checker
+	uv run ty check --exit-zero .
 
 ##
