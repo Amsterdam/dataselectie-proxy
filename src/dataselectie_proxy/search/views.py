@@ -14,7 +14,6 @@ from dataselectie_proxy.search.indexes import INDEX_MAPPING, SearchIndex
 
 
 class ProxySearchView(APIView):
-
     needed_scopes: set = None
     client: AzureSearchServiceClient | DSOExportClient
 

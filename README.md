@@ -34,7 +34,7 @@ Use the same two `-f` options for subsequent commands such as `down`.
 Install the project and its development dependencies:
 
 ```shell
-uv sync --group dev
+make install
 ```
 
 Set the required environment variables and start the Django application:
@@ -47,7 +47,7 @@ export AZURE_SEARCH_BASE_URL={AZURE_SEARCH_API_KEY}
 export DSO_API_BASE_URL={DSO_API_BASE_URL}
 export ACCESS_TOKEN=$(az account get-access-token --resource=https://search.azure.com/)
 
-uv run --project . python src/manage.py runserver localhost:8000
+uv run python src/manage.py runserver localhost:8000
 ```
 
 From the repository root, the Makefile also provides common developer commands:
