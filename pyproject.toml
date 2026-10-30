@@ -1,3 +1,49 @@
+[project]
+name = "dataselectie-proxy"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "Django==5.2.18",
+    "django-environ==0.14.0",
+    "django-cors-headers==4.9.0",
+    "django-healthchecks==1.5.0",
+    "datapunt-authorization-django==3.0.0",
+    "djangorestframework==3.18.3",
+    "python-json-logger==4.2.0",
+    "requests==2.34.2",
+    "more-ds==0.0.6",
+    "orjson==3.13.0",
+    "whitenoise==6.12.0",
+    "azure-monitor-opentelemetry==1.8.11",
+    "opentelemetry-api>=1.45.1",
+    "azure-identity==1.26.0",
+    "msal==1.39.0",
+    "uwsgitop==0.12",
+    "uwsgi-readiness-check==0.2.0",
+    "setuptools",
+    "uwsgi",
+]
+
+[dependency-groups]
+dev = [
+    "azure-identity-broker==1.3.0",
+    "django-debug-toolbar==8.0.0",
+    "django-extensions==4.1",
+    "pre-commit==4.7.0",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "pytest-django==4.14.0",
+    "pytest-sugar==1.1.1",
+    "python-owasp-zap-v2.4==0.1.0",
+    "requests-mock==1.12.1",
+    "ruff==0.17.2",
+    "termcolor==3.3.0",
+    "ty",
+]
+
+[tool.uv]
+package = false
+
 # ==== pytest ====
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.settings"
@@ -25,15 +71,10 @@ omit = ["*/migrations/*.py", "*/test*.py", "*/tests/*"]
 plugins = ["django_coverage_plugin"]
 
 
-# ==== black ====
-[tool.black]
-line-length = 99
-target-version = ['py38']
-
 # ==== ruff ====
 [tool.ruff]
 line-length = 99
-target-version = "py38"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = [

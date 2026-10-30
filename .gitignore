@@ -29,10 +29,6 @@ wheels/
 *.manifest
 *.spec
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -93,9 +89,6 @@ ENV/
 # mkdocs documentation
 /site
 
-# mypy
-.mypy_cache/
-
 # intellij
 .idea/
 *.iml
@@ -122,3 +115,6 @@ ENV/
 
 # Docker
 docker-compose.override.*.y*ml
+
+# Copilot
+/planned-tasks

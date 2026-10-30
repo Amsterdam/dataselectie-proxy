@@ -30,15 +30,21 @@ repos:
         args:
           - --target-version=5.0
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.5
+    rev: v0.17.2
     hooks:
       - id: ruff
         args:
-        - --fix
-        - --show-fixes
-        - --config=pyproject.toml
-        - --exit-non-zero-on-fix
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
+          - --fix
+          - --show-fixes
+          - --config=pyproject.toml
+          - --exit-non-zero-on-fix
+      - id: ruff-format
+        args:
+          - --config=pyproject.toml
+  - repo: local
     hooks:
-      - id: black
+      - id: ty
+        name: ty
+        entry: uv run ty check --exit-zero src
+        language: system
+        pass_filenames: false
