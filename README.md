@@ -7,6 +7,7 @@ Proxy service and token-based authorization for our Azure Search Service or DSO-
 Requirements:
 
 * Python >= 3.12
+* [uv](https://docs.astral.sh/uv/)
 * Recommended: Docker/Docker Compose (or pyenv for local installs)
 
 ### Using Docker Compose
@@ -30,30 +31,32 @@ Use the same two `-f` options for subsequent commands such as `down`.
 
 ### Using Local Python
 
-Create a virtualenv:
+Install the project and its development dependencies:
 
 ```shell
-python3 -m venv venv
-source venv/bin/activate
-```
-
-Install all packages in it:
-```shell
-pip install -U wheel pip
-cd src/
-make install  # installs src/requirements_dev.txt
+uv sync --group dev
 ```
 
 Set the required environment variables and start the Django application:
+
 ```shell
-export PUB_JWKS="$(cat jwks_test.json)"
+export PUB_JWKS="$(cat src/jwks_test.json)"
 export DJANGO_DEBUG=true
 export CLOUD_ENV=local
 export AZURE_SEARCH_BASE_URL={AZURE_SEARCH_API_KEY}
 export DSO_API_BASE_URL={DSO_API_BASE_URL}
 export ACCESS_TOKEN=$(az account get-access-token --resource=https://search.azure.com/)
 
-./manage.py runserver localhost:8000
+uv run --project . python src/manage.py runserver localhost:8000
+```
+
+From the repository root, the Makefile also provides common developer commands:
+
+```shell
+make -C src install
+make -C src test
+make -C src lint
+make -C src typecheck
 ```
 
 ## Example Requests
@@ -125,13 +128,14 @@ Run `make` in the `src` folder to have a help-overview of all common developer t
 
 ## Package Management
 
-The packages are managed with *pip-compile*.
+The packages are managed with uv and locked in `uv.lock`.
 
-To add a package, update the `requirements.in` file and run `make requirements`.
-This will update the "lockfile" aka `requirements.txt` that's used for pip installs.
+To add a runtime package, update `project.dependencies` in `pyproject.toml`.
+To add a development or test package, update the `dev` dependency group.
+Run `uv lock` (or `make -C src lock`) to update `uv.lock`.
 
-To upgrade all packages, run `make upgrade`, followed by `make install` and `make test`.
-Or at once if you feel lucky: `make upgrade install test`.
+To upgrade locked packages, run `make -C src upgrade`, followed by
+`make -C src sync test`.
 
 ## Environment Settings
 

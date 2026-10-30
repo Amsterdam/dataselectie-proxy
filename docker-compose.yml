@@ -1,9 +1,8 @@
 services:
   web:
     build:
-      context: src/
-      args:
-        PIP_REQUIREMENTS: requirements_dev.txt
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -26,5 +25,5 @@ services:
       ACCESS_TOKEN: "${ACCESS_TOKEN:-}"
       DJANGO_DEBUG: 1
     volumes:
-      - ./src:/app
-    command: uwsgi --py-auto-reload=1 --enable-threads --lazy-apps --buffer-size=65535
+      - ./src:/app/src
+    command: uv run --project /app --locked --no-sync uwsgi --py-auto-reload=1 --enable-threads --lazy-apps --buffer-size=65535
