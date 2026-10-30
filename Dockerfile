@@ -42,7 +42,9 @@ ENV VIRTUAL_ENV=/app/.venv \
     UWSGI_HTTP_SOCKET=:8000 \
     UWSGI_MODULE=dataselectie_proxy.wsgi \
     UWSGI_CALLABLE=application \
-    UWSGI_MASTER=1
+    UWSGI_MASTER=1 \
+    UV_CACHE_DIR=/app/.cache/uv
+
 RUN /app/.venv/bin/python src/manage.py collectstatic --noinput
 
 EXPOSE 8000
