@@ -6,7 +6,8 @@ Proxy service and token-based authorization for our Azure Search Service or DSO-
 
 Requirements:
 
-* Python >= 3.12
+* Python >= 3.14
+* [uv](https://docs.astral.sh/uv/)
 * Recommended: Docker/Docker Compose (or pyenv for local installs)
 
 ### Using Docker Compose
@@ -30,31 +31,38 @@ Use the same two `-f` options for subsequent commands such as `down`.
 
 ### Using Local Python
 
-Create a virtualenv:
+Install the project and its development dependencies:
 
 ```shell
-python3 -m venv venv
-source venv/bin/activate
-```
-
-Install all packages in it:
-```shell
-pip install -U wheel pip
-cd src/
-make install  # installs src/requirements_dev.txt
+uv sync --group dev
 ```
 
 Set the required environment variables and start the Django application:
+
 ```shell
-export PUB_JWKS="$(cat jwks_test.json)"
+export PUB_JWKS="$(cat src/jwks_test.json)"
 export DJANGO_DEBUG=true
 export CLOUD_ENV=local
 export AZURE_SEARCH_BASE_URL={AZURE_SEARCH_API_KEY}
 export DSO_API_BASE_URL={DSO_API_BASE_URL}
 export ACCESS_TOKEN=$(az account get-access-token --resource=https://search.azure.com/)
 
-./manage.py runserver localhost:8000
+uv run --project . python src/manage.py runserver localhost:8000
 ```
+
+From the repository root, the Makefile also provides common developer commands:
+
+```shell
+make install
+make test
+make format
+make lint
+make type
+```
+
+`make format` applies Ruff lint fixes only, matching beheeromgeving-catalogus.
+Run `uv run ruff format .` for formatting, or let the pre-commit formatter handle it.
+Typing diagnostics are warnings and do not block checks.
 
 ## Example Requests
 
@@ -121,17 +129,21 @@ Hardening deployment:
 
 ## Developer Notes
 
-Run `make` in the `src` folder to have a help-overview of all common developer tasks.
+Run `make` in the repository root for an overview of all common developer tasks.
 
 ## Package Management
 
-The packages are managed with *pip-compile*.
+The packages are managed with uv and locked in `uv.lock`.
+The application is installed from `src/dataselectie_proxy` using `uv_build`.
+Docker builds use the root Dockerfile and repository-root context, include all
+dependency groups, and start the application with `uv run uwsgi`.
 
-To add a package, update the `requirements.in` file and run `make requirements`.
-This will update the "lockfile" aka `requirements.txt` that's used for pip installs.
+To add a runtime package, update `project.dependencies` in `pyproject.toml`.
+To add a development or test package, update the `dev` dependency group.
+Run `uv lock` (or `make lock`) to update `uv.lock`.
 
-To upgrade all packages, run `make upgrade`, followed by `make install` and `make test`.
-Or at once if you feel lucky: `make upgrade install test`.
+To upgrade locked packages, run `make upgrade`, followed by
+`make sync test`.
 
 ## Environment Settings
 
@@ -143,7 +155,7 @@ In a similar way, *pyenv* helps to install the exact Python version,
 and will automatically activate the virtualenv when a `.python-version` file is found:
 
 ```shell
-pyenv install 3.12.4
-pyenv virtualenv 3.12.4 dataselectie-proxy
+pyenv install 3.14.0
+pyenv virtualenv 3.14.0 dataselectie-proxy
 echo dataselectie-proxy > .python-version
 ```

@@ -299,7 +299,6 @@ class AzureSearchServiceClient(BaseClient):
 
 
 class DSOExportClient(BaseClient):
-
     def _call(self, request_args: dict, index: SearchIndex) -> requests.Response:
         endpoint_url = f"{self.base_url}/v1/{index.api_path}"
 

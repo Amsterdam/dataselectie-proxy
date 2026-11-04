@@ -6,11 +6,11 @@ from unittest.mock import patch
 
 import pytest
 from azure.identity import DefaultAzureCredential
-from dataselectie_proxy.search.clients import AzureSearchServiceClient
 from django.core.handlers.wsgi import WSGIRequest
 from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory
 
+from dataselectie_proxy.search.clients import AzureSearchServiceClient
 from tests.utils import api_request_with_scopes, to_drf_request
 
 HERE = Path(__file__).parent
