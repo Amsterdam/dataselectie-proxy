@@ -26,4 +26,4 @@ services:
       DJANGO_DEBUG: 1
     volumes:
       - ./src:/app/src
-    command: uv run --project /app --locked --no-sync uwsgi --py-auto-reload=1 --enable-threads --lazy-apps --buffer-size=65535
+    command: uv run uwsgi --py-auto-reload=1 --enable-threads --lazy-apps --buffer-size=65535
