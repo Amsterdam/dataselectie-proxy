@@ -33,6 +33,7 @@ USER dataselectieproxy
 ENV DJANGO_SETTINGS_MODULE=dataselectie_proxy.settings \
     DJANGO_DEBUG=false \
     UV_NO_CACHE=1 \
+    PYTHONPATH="/app/src" \
     UWSGI_HTTP_SOCKET=:8000 \
     UWSGI_MODULE=dataselectie_proxy.wsgi \
     UWSGI_CALLABLE=application \
