@@ -1,18 +1,22 @@
 FROM ghcr.io/astral-sh/uv:0.13-python3.14-trixie-slim AS builder
 
-ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
 
-WORKDIR /app
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
 COPY pyproject.toml uv.lock ./
+
 RUN uv sync --frozen --no-install-project --all-groups
 
-COPY src/ ./src/
+COPY /src /app/src
+
+ENV CC=/usr/bin/gcc \
+    UV_PROJECT_ENVIRONMENT=/app/.venv
 
 # Start runtime image,
 FROM ghcr.io/astral-sh/uv:0.13-python3.14-trixie-slim
@@ -24,20 +28,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app/src
+WORKDIR /app
 RUN chown dataselectieproxy:dataselectieproxy /app
 COPY --from=builder --chown=dataselectieproxy:dataselectieproxy /app /app
 USER dataselectieproxy
 
 # Have some defaults so the container is easier to start
-ENV DJANGO_SETTINGS_MODULE=dataselectie_proxy.settings \
+ENV VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH" \
+    PYTHONPATH="/app/src" \
+    DJANGO_SETTINGS_MODULE=dataselectie_proxy.settings \
     DJANGO_DEBUG=false \
-    UV_NO_CACHE=1 \
     UWSGI_HTTP_SOCKET=:8000 \
     UWSGI_MODULE=dataselectie_proxy.wsgi \
     UWSGI_CALLABLE=application \
     UWSGI_MASTER=1
-RUN uv run manage.py collectstatic --noinput
+RUN /app/.venv/bin/python src/manage.py collectstatic --noinput
 
 EXPOSE 8000
 USER dataselectieproxy
